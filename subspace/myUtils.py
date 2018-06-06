@@ -136,3 +136,22 @@ def plot_eigs_cart(lam_true, lam_ord, lam_sub):
     plt.show()
 
     return
+
+
+def plot_point_array(data,marker='+'):
+    # get data in polar coordinates for plotting
+    if type(data) is list:
+        data=np.array(data,dtype=complex)
+
+    fig = plt.figure(figsize=(10, 10))
+    ax = fig.add_subplot(111)
+    ax.set_xticks(np.arange(-1.1, 1.1, 0.1))
+    ax.set_yticks(np.arange(-1.1, 1.1, 0.1))
+    ax.set_xlabel("Real")
+    ax.set_ylabel("Imaginary")
+    ax.grid()
+
+    for i in range(data.shape[0]):
+        ax.plot(data[i].real, data[i].imag, marker)
+    plt.show()
+    return
