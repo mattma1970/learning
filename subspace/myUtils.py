@@ -63,7 +63,7 @@ def plot_raw_data(Y, Y_noiseless):
 
 def plot_polar_coords(Y):
     # plot array of polar co-ordinates on a polar plot
-    fig = plt.figure(figsize=(10, 10))
+    fig = plt.figure()
     ax = fig.add_subplot(111, polar=True)
     line=ax.plot(Y[1,:],Y[0,:],lw=1,color='red')
     plt.show()
@@ -105,7 +105,7 @@ def plot_eigs_cart(lam_true, lam_ord, lam_sub):
         ax.plot([ord_c[1, i]], [ord_c[0, i]], 'x')
         ax.annotate('ordinary DMD', xy=(ord_c[1, i], ord_c[0, i]))
         ax.plot([sub_c[1, i]], [sub_c[0, i]], '+')
-        ax.annotate('subscpace DMD', xy=(sub_c[1, i], sub_c[0, i]))
+        ax.annotate('subspace DMD', xy=(sub_c[1, i], sub_c[0, i]))
         ax.plot(np.cos(np.linspace(0,2*np.pi,100)),np.sin(np.linspace(0,2*np.pi,100)),"--")
 
     ax.set_xticks(np.arange(-1.1, 1.1, 0.1))

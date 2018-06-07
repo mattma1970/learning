@@ -14,15 +14,15 @@ def generate_stuart_landau(intDataCount, dictParas, liInit):
     data[:,0]=np.array(liInit)  # 2x1 matrix of initial conditions
 
     for counter in np.arange(1,intDataCount):
-         r_t = data[0,counter-1];
-         theta_t=data[0,counter-1];
+        r_t = data[0,counter-1];
+        theta_t=data[0,counter-1];
 
-         # discretized stuart-landau solution
-         temp = np.array([r_t+(dictParas['mu']*r_t-r_t**3)*dictParas['dt'],
+        # discretized stuart-landau solution
+        temp = np.array([r_t+(dictParas['mu']*r_t-r_t**3)*dictParas['dt'],
                             theta_t + (dictParas['gamma']-dictParas['beta']*r_t**2)*dictParas['dt']])
-         temp2 = temp + np.diag([dictParas['dt'],dictParas['dt']/r_t])@(rnd.multivariate_normal([0,0],[[1,0],[0,1]])*dictParas['sigma_p'])
+        temp2 = temp + np.diag([dictParas['dt'],dictParas['dt']/r_t])@(rnd.multivariate_normal([0,0],[[1,0],[0,1]])*dictParas['sigma_p'])
 
-         data[:,counter] = np.array(temp2)
+        data[:,counter] = np.array(temp2)
 
     return data
 

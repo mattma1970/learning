@@ -16,11 +16,9 @@ example_number = 0
 intDataCount=1000
 
 
-######################
-
 if example_number==0:
-    example.run_simple_linear_example(intDataCount,noiseStdObs=0,noiseStdProcess=0.1)
-elif example_number==1:                     #Run landau stuart example
+    example.run_simple_linear_example(intDataCount,noiseStdObs=0.1,noiseStdProcess=0.1,test=False)
+elif example_number==1:      #Run landau stuart example                
 
     dictParas = {'mu':0.9,
                  'gamma':0.9,
