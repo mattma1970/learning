@@ -4,25 +4,6 @@ import scipy as sp
 import matplotlib.pyplot as plt
 
 
-# generate data for 2 dimensional dynamics on complex plane
-def generateData2D(intDataCount, eigs, noiseStd, test = False):
-    # intDataCount is number of data points to genereate
-    # eigs : the true eigenvalues of the linear dynamics system
-    # noiseStd : std of process noise to add
-    # test: bool : test==true then replace stochastic noise with deterministic
-    # returns
-    # Y_proc : 2 x 1000 array : complex valued co-ordinates
-
-    Y = np.zeros((len(eigs), intDataCount), dtype=np.complex64)  # 2x 1000
-    Y[:, :1] = np.ones([len(eigs), 1])  # zeroth column
-
-    for index in range(1, intDataCount):
-        if not test:
-            Y[:, index:(index + 1)] = np.matmul(sp.diag(eigs), Y[:, (index - 1):index]) + np.random.randn(2, 1) * noiseStd
-        else:
-            Y[:, index:(index + 1)] = np.matmul(sp.diag(eigs), Y[:, (index - 1):index]) + np.matrix([index, index]).T * noiseStd
-
-    return Y
 
 
 # convert to polar and stack into matrix
@@ -138,20 +119,21 @@ def plot_eigs_cart(lam_true, lam_ord, lam_sub):
     return
 
 
-def plot_point_array(data,marker='+'):
+def plot_point_array(data,marker='+',marker_color='green'):
     # get data in polar coordinates for plotting
     if type(data) is list:
         data=np.array(data,dtype=complex)
 
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111)
-    ax.set_xticks(np.arange(-1.1, 1.1, 0.1))
-    ax.set_yticks(np.arange(-1.1, 1.1, 0.1))
+    ax.autoscale()
+    #ax.set_xticks(np.arange(-1.1, 1.1, 0.1))
+    #ax.set_yticks(np.arange(-1.1, 1.1, 0.1))
     ax.set_xlabel("Real")
     ax.set_ylabel("Imaginary")
     ax.grid()
 
     for i in range(data.shape[0]):
-        ax.plot(data[i].real, data[i].imag, marker)
+        ax.plot(data[i].real, data[i].imag, marker,color=marker_color)
     plt.show()
     return

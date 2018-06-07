@@ -12,6 +12,9 @@ def reducedSVD(X,r):
     U_r = U_r[:,0:r]
     S_r=S_r[0:r]
     V_r=V_r[0:r,:]
+
+    print(np.allclose(X,U_r@np.diag(S_r)@(V_r)))
+
     return U_r,S_r,V_r
 
 
@@ -19,6 +22,7 @@ def reducedSVD(X,r):
 def ordDMD(Y0, Y1, r):
     # Inputs:
     #   Y0,Y1 : np.arrays : data snapshots for t=0 and then time shifted
+    #   r: rank of desired reduced SVD approximation
     # Returns:
     #   lam : rxr np.array : eigenvalues
     #   v_right :   : normalised right eigenvector
