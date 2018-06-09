@@ -119,14 +119,27 @@ def plot_eigs_cart(lam_true, lam_ord, lam_sub):
     return
 
 
-def plot_point_array(data,marker='+',marker_color='green'):
-    # get data in polar coordinates for plotting
+def plot_point_array(data,marker='+',marker_color='green',blSetXScale=False, x_range_scale=1, title='chart'):
+    """
+    Plot list of complex values on cartesian axes.
+    """
     if type(data) is list:
         data=np.array(data,dtype=complex)
 
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111)
-    ax.autoscale()
+    ax.set_title(title)
+    ax.title
+    
+    if blSetXScale==True:
+        ax.set_autoscaley_on(True)
+        ax.set_autoscalex_on(False)
+        ax.set_xlim(-1*x_range_scale,1*x_range_scale)
+    else:
+        ax.set_autoscaley_on(True)
+        ax.set_autoscalex_on(True)
+        ax.autoscale()
+    
     #ax.set_xticks(np.arange(-1.1, 1.1, 0.1))
     #ax.set_yticks(np.arange(-1.1, 1.1, 0.1))
     ax.set_xlabel("Real")
