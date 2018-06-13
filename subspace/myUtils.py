@@ -66,7 +66,7 @@ def plot_polar_coords(Y):
     fig = plt.figure()
     ax = fig.add_subplot(111, polar=True)
     line=ax.plot(Y[1,:],Y[0,:],lw=1,color='red')
-    plt.show()
+    #plt.show()
 
 
 def plot_eigs_polar(lam_true, lam_ord, lam_sub):
@@ -119,34 +119,48 @@ def plot_eigs_cart(lam_true, lam_ord, lam_sub):
     return
 
 
-def plot_point_array(data,marker='+',marker_color='green',blSetXScale=False, x_range_scale=1, title='chart'):
+def plot_point_array(data,marker='+',marker_color='green',blSetXScale=False, x_range_scale=1, title='chart',chainToAxes=None):
     """
-    Plot list of complex values on cartesian axes.
+    inputs
+    ======
+    Create figure and plot a list of complex values on cartesian axes.
+    chainToAxes: fig.axes object : used to chain charts together in order have multiple data series on the same chart.
+    returns
+    =======
+    plt.axes object containing the data from one or more data series.
+
+    ** Does not call plt.show(). This must be done by the invoking method.
+
     """
     if type(data) is list:
         data=np.array(data,dtype=complex)
 
-    fig = plt.figure(figsize=(10, 10))
-    ax = fig.add_subplot(111)
-    ax.set_title(title)
-    ax.title
-    
-    if blSetXScale==True:
-        ax.set_autoscaley_on(True)
-        ax.set_autoscalex_on(False)
-        ax.set_xlim(-1*x_range_scale,1*x_range_scale)
-    else:
-        ax.set_autoscaley_on(True)
-        ax.set_autoscalex_on(True)
-        ax.autoscale()
-    
-    #ax.set_xticks(np.arange(-1.1, 1.1, 0.1))
-    #ax.set_yticks(np.arange(-1.1, 1.1, 0.1))
-    ax.set_xlabel("Real")
-    ax.set_ylabel("Imaginary")
-    ax.grid()
+    if chainToAxes==None:
+        fig = plt.figure(figsize=(10, 10))
+        ax = fig.add_subplot(111)
+        ax.set_title(title)
 
-    for i in range(data.shape[0]):
-        ax.plot(data[i].real, data[i].imag, marker,color=marker_color)
-    plt.show()
-    return
+        if blSetXScale==True:
+            ax.set_autoscaley_on(True)
+            ax.set_autoscalex_on(False)
+            ax.set_xlim(-1*x_range_scale,1*x_range_scale)
+        else:
+            ax.set_autoscaley_on(True)
+            ax.set_autoscalex_on(True)
+            ax.autoscale()
+
+        #ax.set_xticks(np.arange(-1.1, 1.1, 0.1))
+        #ax.set_yticks(np.arange(-1.1, 1.1, 0.1))
+        ax.set_xlabel("Real")
+        ax.set_ylabel("Imaginary")
+        ax.grid()
+    else:
+        ax = chainToAxes
+
+    dataCartReal = [data[i].real for i in range(data.shape[0])]
+    dataCartImag = [data[i].imag for i in range(data.shape[0])]
+
+    ax.scatter(dataCartReal,dataCartImag,color=marker_color, label=title)
+    #ax.scatter(data[i].real, data[i].imag, marker,color=marker_color, label=title)
+
+    return ax

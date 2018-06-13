@@ -45,7 +45,7 @@ elif example_number==1:
     lam_ord,_,_ = algs.ordDMD(Y0,Y1,r)
     # and then plot the results.
     lam_ord_vector_cart = [np.log(lam_ord[i,i])/dictParas['dt'] for i in range(lam_ord.shape[0])]
-    myUtils.plot_point_array(lam_ord_vector_cart,'x','red',blSetXScale=True, x_range_scale=0.03,title='Noiseless data Ord DMD eigenvalues')
+    fig_orig= myUtils.plot_point_array(lam_ord_vector_cart,'x','blue',blSetXScale=True, x_range_scale=0.05,title='Noiseless data Ord DMD eigenvalues')
     
     """ Process and obs noise cases """
     # Dictionary of parameters for Stuart Landau equation
@@ -53,7 +53,7 @@ elif example_number==1:
                  'gamma':1,
                  'beta':0,
                  'dt':0.01,
-                 'sigma_p':0.1,
+                 'sigma_p':0.3,
                  'sigma_o':0.01}
     
     # Initial values of r and theta respectively 
@@ -74,12 +74,18 @@ elif example_number==1:
     lam_ord,_,_ = algs.ordDMD(Y0,Y1,r)
     # and then plot the results.
     lam_ord_vector_cart = [np.log(lam_ord[i,i])/dictParas['dt'] for i in range(lam_ord.shape[0])]
-    myUtils.plot_point_array(lam_ord_vector_cart,'x','red',blSetXScale=True, x_range_scale=0.03,title='ordinary DMD eigenvalues')
+    fig1 = myUtils.plot_point_array(lam_ord_vector_cart,'x','red',blSetXScale=True, x_range_scale=0.03,title='ordinary DMD eigenvalues', chainToAxes=fig_orig)
     
     # Apply the subspace DMD algorithm
     lam_sub = algs.subspaceDMD(observables)[0]
     lam_sub_cart=[np.log(lam_sub[i,i])/dictParas['dt'] for i in range(lam_sub.shape[0])]
-    myUtils.plot_point_array(lam_sub_cart,'+','green',blSetXScale=True ,x_range_scale=0.03,title='subSpaceDMD eigenvalues')
+    fig2 = myUtils.plot_point_array(lam_sub_cart,'+','green',blSetXScale=True ,x_range_scale=0.03,title='subSpaceDMD eigenvalues', chainToAxes=fig1)
+
+
+    # Display the chart will all methods for comparison
+    fig2.set_title('DMD Methods')
+    fig2.legend()
+    plt.show()
     
 
 
